@@ -1,0 +1,240 @@
+<!-- DIBUAT OLEH KING_PROJECT(ARDY_DEV) -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - King_Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="stell/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN for drawing graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Firebase SDK Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, increment, onSnapshot, collection, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+        const firebaseConfig = JSON.parse(firebaseConfigString);
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- Guard Clause for Firebase Config ---
+        // If the config is invalid, display an error message and halt execution.
+        if (!firebaseConfig || !firebaseConfig.projectId) {
+            console.error("Konfigurasi Firebase tidak valid atau tidak ditemukan.");
+            // Wait for the DOM to be ready before trying to manipulate it.
+            document.addEventListener('DOMContentLoaded', () => {
+                const loadingGraphEl = document.getElementById('loadingGraph');
+                if (loadingGraphEl) {
+                    loadingGraphEl.textContent = 'Koneksi Gagal: Konfigurasi Firebase tidak tersedia.';
+                    loadingGraphEl.style.display = 'block';
+                }
+                const canvasEl = document.getElementById('visitorChartCanvas');
+                if (canvasEl) canvasEl.style.display = 'none';
+            });
+        } else {
+            // --- Proceed with Firebase Initialization ---
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+
+            let visitorChart; // To store the Chart.js instance
+
+            // --- Helper Functions ---
+            function getFormattedDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            // --- Core Functions ---
+
+            // Function to update visitor count for the current day
+            async function updateDailyVisitorCount() {
+                if (sessionStorage.getItem('visitRecorded')) {
+                    console.log("Kunjungan sudah tercatat di sesi ini.");
+                    return;
+                }
+                const todayFormatted = getFormattedDate(new Date());
+                const visitorDocRef = doc(db, `artifacts/${appId}/public/data/dailyVisitors`, todayFormatted);
+                try {
+                    await setDoc(visitorDocRef, {
+                        count: increment(1),
+                        lastVisit: serverTimestamp()
+                    }, { merge: true });
+                    sessionStorage.setItem('visitRecorded', 'true');
+                    console.log("Jumlah pengunjung harian berhasil diperbarui.");
+                } catch (error) {
+                    console.error("Kesalahan saat memperbarui jumlah pengunjung:", error);
+                }
+            }
+
+            // Function to initialize and update the chart
+            function initializeVisitorChart(data) {
+                const ctx = document.getElementById('visitorChartCanvas').getContext('2d');
+                
+                // FIX: Corrected typo 'b' to 'dateB' in the sort function
+                const sortedEntries = Object.entries(data).sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB));
+                
+                const labels = sortedEntries.map(([date]) => date);
+                const counts = sortedEntries.map(([, countData]) => countData.count);
+
+                if (visitorChart) {
+                    visitorChart.data.labels = labels;
+                    visitorChart.data.datasets[0].data = counts;
+                    visitorChart.update();
+                } else {
+                    visitorChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Pengunjung Harian',
+                                data: counts,
+                                borderColor: '#38bdf8',
+                                backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 5,
+                                pointBackgroundColor: '#38bdf8',
+                                pointBorderColor: '#fff',
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: '#38bdf8',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Grafik Pengunjung Harian',
+                                    color: '#fff',
+                                    font: { size: 18 }
+                                },
+                                legend: { display: false }
+                            },
+                            scales: {
+                                x: {
+                                    type: 'category', 
+                                    title: {
+                                        display: true,
+                                        text: 'Tanggal',
+                                        color: '#fff'
+                                    },
+                                    ticks: { color: '#cbd5e0' },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Jumlah Pengunjung',
+                                        color: '#fff'
+                                    },
+                                    ticks: {
+                                        color: '#cbd5e0',
+                                        precision: 0 
+                                    },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // --- Authentication and Data Listener ---
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    console.log("Pengguna terautentikasi:", user.uid);
+                    await updateDailyVisitorCount();
+                    const dailyVisitorsColRef = collection(db, `artifacts/${appId}/public/data/dailyVisitors`);
+                    const q = query(dailyVisitorsColRef);
+                    onSnapshot(q, (snapshot) => {
+                        const visitorData = {};
+                        if (snapshot.empty) {
+                            console.log("Tidak ada data pengunjung.");
+                        }
+                        snapshot.forEach((doc) => {
+                            visitorData[doc.id] = doc.data();
+                        });
+                        console.log("Data pengunjung real-time:", visitorData);
+                        initializeVisitorChart(visitorData);
+                        document.getElementById('loadingGraph').style.display = 'none';
+                        document.getElementById('visitorChartCanvas').style.display = 'block';
+                    }, (error) => {
+                        console.error("Kesalahan mendengarkan data pengunjung:", error);
+                        document.getElementById('loadingGraph').textContent = 'Gagal memuat data pengunjung.';
+                    });
+                } else {
+                    console.log("Pengguna tidak terautentikasi, mencoba masuk...");
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (error) {
+                        console.error("Kesalahan saat masuk:", error);
+                        document.getElementById('loadingGraph').textContent = 'Gagal mengautentikasi. Silakan muat ulang.';
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-content">
+                    <a href="#" class="brand-logo">Ardy<span>Dev</span></a>
+                    <div class="desktop-menu">
+                        <a href="" class="desktop-menu-button">TIDAK DIPERKENANKAN DEKSTOP</a>
+                    </div>
+                    <div class="mobile-menu-toggle">
+                        <button id="menu-btn" class="hamburger">
+                            <span class="hamburger-top"></span>
+                            <span class="hamburger-middle"></span>
+                            <span class="hamburger-bottom"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="menu" class="mobile-nav-menu">
+                <div class="mobile-nav-items-container"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="content-container">
+            <h1>Wel<span class="text-sky-400">Come</span></h1>
+            <p>Halo selamat datang di Website Ardy_Dev</p>
+        </div>
+
+        <!-- Visitor Graph Section -->
+        <section class="visitor-graph-section">
+            <div class="graph-container">
+                <h2>Statistik Pengunjung</h2>
+                <div id="loadingGraph">Memuat data pengunjung...</div>
+                <canvas id="visitorChartCanvas"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 KingProject. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="stell/script.js"></script>
+</body>
+</html>
