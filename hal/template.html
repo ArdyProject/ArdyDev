@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KingProject - Unduh Template HTML</title>
+    
+    <!-- Memuat Google Fonts (Inter) untuk tipografi yang bersih -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Kustom untuk styling lengkap dan animasi -->
+    <style>
+        /* Mengatur font default ke Inter dan styling dasar body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Warna latar belakang gelap */
+            color: #fff; /* Warna teks putih */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            min-height: 100vh; /* Memastikan body mengisi seluruh tinggi viewport */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Styling untuk header yang fixed di atas */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+        }
+
+        /* Styling untuk navigasi bar */
+        .main-nav {
+            background-color: rgba(36, 44, 58, 0.6); /* Latar belakang transparan dengan blur */
+            backdrop-filter: blur(10px); /* Efek blur */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Bayangan */
+            margin: 8px; /* Margin di sekitar nav bar */
+            border-radius: 12px; /* Sudut membulat */
+        }
+
+        /* Kontainer untuk konten navigasi */
+        .nav-container {
+            max-width: 1152px; /* Lebar maksimum */
+            margin-left: auto;
+            margin-right: auto; /* Pusatkan secara horizontal */
+            padding-left: 16px;
+            padding-right: 16px; /* Padding samping */
+        }
+
+        /* Flexbox untuk mengatur layout logo (tidak ada tombol lain) */
+        .nav-content {
+            display: flex;
+            justify-content: flex-start; /* Logo di kiri */
+            align-items: center; /* Pusatkan item secara vertikal */
+            height: 64px; /* Tinggi nav bar */
+        }
+
+        /* Styling untuk logo brand */
+        .brand-logo {
+            font-size: 1.5rem; /* Ukuran font */
+            font-weight: 700; /* Tebal font */
+            color: #38bdf8; /* Warna biru langit */
+            transition: color 0.3s ease-in-out; /* Transisi warna halus */
+            text-decoration: none; /* Hilangkan garis bawah */
+        }
+
+        .brand-logo:hover {
+            color: #7dd3fc; /* Warna biru langit lebih terang saat hover */
+        }
+
+        .brand-logo span {
+            color: #fff; /* Warna putih untuk bagian kedua logo */
+        }
+
+        /* Styling untuk konten halaman contoh (Hero Section) */
+        .hero-section {
+            padding-top: 96px; /* Padding atas untuk menghindari tumpang tindih dengan header */
+            padding-left: 16px;
+            padding-right: 16px; /* Padding samping */
+            flex-grow: 1; /* Memungkinkan section ini mengisi ruang yang tersedia */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: calc(100vh - 96px); /* Mengambil sisa tinggi viewport */
+        }
+
+        .hero-container {
+            max-width: 896px; /* Lebar maksimum */
+            margin-left: auto;
+            margin-right: auto; /* Pusatkan secara horizontal */
+        }
+
+        .hero-container h1 {
+            font-size: 2.25rem; /* Ukuran font */
+            font-weight: 700; /* Tebal font */
+            margin-bottom: 16px; /* Margin bawah */
+        }
+
+        /* Media query untuk ukuran font h1 di desktop */
+        @media (min-width: 768px) {
+            .hero-container h1 {
+                font-size: 3.75rem; /* Ukuran font lebih besar di desktop */
+            }
+        }
+
+        .hero-container h1 span {
+            color: #38bdf8; /* Warna biru langit */
+        }
+
+        .hero-container p {
+            color: #d1d5db; /* Warna abu-abu terang */
+            font-size: 1.125rem; /* Ukuran font */
+            line-height: 1.6;
+        }
+
+        /* Styling untuk bagian template */
+        .templates-section {
+            padding: 64px 16px; /* Padding atas/bawah dan samping */
+            max-width: 1152px;
+            margin: 0 auto; /* Pusatkan */
+            text-align: center;
+        }
+
+        .templates-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+            color: #38bdf8;
+        }
+
+        /* Grid untuk tata letak template */
+        .templates-grid {
+            display: grid;
+            gap: 32px; /* Jarak antar kartu template */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Kolom responsif */
+        }
+
+        /* Styling untuk kartu template */
+        .template-card {
+            background-color: #2d3748; /* Warna latar belakang kartu */
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px); /* Efek angkat saat hover */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        .template-card img {
+            width: 100%;
+            max-width: 250px; /* Batasi lebar gambar */
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            object-fit: cover; /* Memastikan gambar mengisi ruang tanpa distorsi */
+        }
+
+        .template-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .template-card p {
+            font-size: 0.95rem;
+            color: #cbd5e0;
+            margin-bottom: 24px;
+            flex-grow: 1; /* Memungkinkan deskripsi mengisi ruang */
+        }
+
+        .template-card .download-btn {
+            background-color: #0bf7d8; /* Warna biru langit */
+            color: black; /* Teks gelap */
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block; /* Agar padding dan margin berfungsi */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .template-card .download-btn:hover {
+            background-color: #7dd3fc; /* Warna biru langit lebih terang */
+            transform: translateY(-2px); /* Efek sedikit angkat */
+        }
+
+        /* Styling untuk footer */
+        .main-footer {
+            background-color: #0f172a; /* Warna latar belakang footer */
+            color: #cbd5e0;
+            text-align: center;
+            padding: 32px 16px;
+            margin-top: 64px; /* Margin atas untuk memisahkan dari konten */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-footer p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header dan Navigasi Bar -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-content">
+                    <!-- Logo -->
+                    <a href="#" class="brand-logo">
+                        Temp<span>Late</span>
+                    </a>
+                    <!-- Tidak ada tombol navigasi lain di sini -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Konten Halaman Contoh (Hero Section) -->
+    <main class="main-content">
+        <section id="hero" class="hero-section">
+            <div class="hero-container">
+                <h1>Temukan <span class="text-sky-400">Template HTML</span> Terbaik untuk Proyek Anda</h1>
+                <p>Jelajahi koleksi template HTML Dasar dan modern yang siap digunakan untuk berbagai kebutuhan, mulai dari portofolio pribadi hingga situs web bisnis.</p>
+            </div>
+        </section>
+
+        <!-- Bagian Template -->
+        <section id="templates" class="templates-section">
+            <h2>Koleksi Template Kami</h2>
+            <div class="templates-grid" id="templatesGrid">
+                <!-- Template cards akan dimuat di sini oleh JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 KingProject. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <!-- JavaScript untuk memuat template -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const templatesGrid = document.getElementById('templatesGrid');
+
+            // Data untuk 4 template dengan gambar template sebenarnya dan link internal
+            const templatesData = [
+                              {
+                    id: 'portfolio-template',
+                    name: 'Church',
+                    description: 'Maaf, Template tidak disediakan',
+                    imageUrl: '/hal/img/Gereja.jpg',
+                    downloadUr: '#'
+                },
+              
+                {
+                    id: 'portfolio-template',
+                    name: 'Web Portofolio',
+                    description: 'Download dan ekstrak .zip nya di aplikasi ZArchiver',
+                    imageUrl: '/hal/img/portofolio.jpg',
+                    downloadUrl: '/template/portofolio.zip'
+                },
+                {
+                    id: 'business-template',
+                    name: 'Ecommers',
+                    description: 'Download dan ekstrak .zip nya di aplikasi ZArchiver',
+                    imageUrl: 'img/ecomer.jpg',
+                    downloadUrl: '/template/ecomers.zip'
+                },
+                {
+                    id: 'blog-template',
+                    name: 'Web Pribadi',
+                    description: 'Download dan ekstrak .zip nya di aplikasi ZArchiver',
+                    imageUrl: 'img/Screenshot_2025_0724_194237.jpg',
+                    downloadUrl: '/template/APortfolio.zip'
+                },
+                {
+                    id: 'restaurant-template',
+                    name: 'Travel Templat',
+                    description: 'Download dan ekstrak .zip nya di aplikasi ZArchiver',
+                    imageUrl: 'img/Screenshot_2025_0724_194404.jpg',
+                    downloadUrl: '/template/Travel.zip'
+                }];
+
+            // Fungsi untuk memuat template ke dalam grid
+            function loadTemplates() {
+                templatesData.forEach(template => {
+                    const card = document.createElement('div');
+                    card.classList.add('template-card');
+                    card.innerHTML = `
+                        <img src="${template.imageUrl}" alt="Preview Template ${template.name}" onerror="this.src='https://placehold.co/400x300/2d3748/cbd5e0?text=${encodeURIComponent(template.name)}'">
+                        <h3>${template.name}</h3>
+                        <p>${template.description}</p>
+                        <a href="${template.downloadUrl}" download="${template.id}.zip" class="download-btn">Unduh Sekarang</a>
+                    `;
+                    templatesGrid.appendChild(card);
+                });
+            }
+
+            // Muat template saat DOM selesai dimuat
+            loadTemplates();
+        });
+    </script>
+</body>
+</html>
