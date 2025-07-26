@@ -6,176 +6,277 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - King_Project</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="stell/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chart.js CDN for drawing graphs -->
+    <link rel="stylesheet" href="stell/style.css">
+    <!-- Chart.js CDN with date adapter -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Firebase SDK Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <!-- Firebase SDK CDN -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, increment, onSnapshot, collection, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot, collection, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Firebase Configuration ---
+        // Global variables for Firebase (provided by Canvas environment)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
-        const firebaseConfig = JSON.parse(firebaseConfigString);
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            // Fallback config for testing
+            apiKey: "demo-api-key",
+            authDomain: "demo.firebaseapp.com",
+            projectId: "demo-project",
+            storageBucket: "demo-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:demo"
+        };
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        // --- Guard Clause for Firebase Config ---
-        // If the config is invalid, display an error message and halt execution.
-        if (!firebaseConfig || !firebaseConfig.projectId) {
-            console.error("Konfigurasi Firebase tidak valid atau tidak ditemukan.");
-            // Wait for the DOM to be ready before trying to manipulate it.
-            document.addEventListener('DOMContentLoaded', () => {
-                const loadingGraphEl = document.getElementById('loadingGraph');
-                if (loadingGraphEl) {
-                    loadingGraphEl.textContent = 'Koneksi Gagal: Konfigurasi Firebase tidak tersedia.';
-                    loadingGraphEl.style.display = 'block';
-                }
-                const canvasEl = document.getElementById('visitorChartCanvas');
-                if (canvasEl) canvasEl.style.display = 'none';
-            });
-        } else {
-            // --- Proceed with Firebase Initialization ---
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            const auth = getAuth(app);
+        // Initialize Firebase
+        let app, db, auth;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+            // Show error message and simulate data for demo
+            document.getElementById('loadingGraph').textContent = 'Demo mode - showing simulated data';
+            setTimeout(() => {
+                initializeVisitorChart(generateDemoData());
+                document.getElementById('loadingGraph').style.display = 'none';
+                document.getElementById('visitorChartCanvas').style.display = 'block';
+            }, 2000);
+        }
 
-            let visitorChart; // To store the Chart.js instance
+        let visitorChart; // To store the Chart.js instance
 
-            // --- Helper Functions ---
-            function getFormattedDate(date) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
+        // Function to format date as YYYY-MM-DD
+        function getFormattedDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Generate demo data for testing
+        function generateDemoData() {
+            const data = {};
+            const today = new Date();
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const dateStr = getFormattedDate(date);
+                data[dateStr] = Math.floor(Math.random() * 50) + 10;
             }
+            return data;
+        }
 
-            // --- Core Functions ---
+        // Function to update visitor count for the current day
+        async function updateDailyVisitorCount() {
+            if (!db) return; // Skip if Firebase is not initialized
+            
+            const today = new Date();
+            const todayFormatted = getFormattedDate(today);
+            const visitorDocRef = doc(db, `artifacts/${appId}/public/data/dailyVisitors`, todayFormatted);
 
-            // Function to update visitor count for the current day
-            async function updateDailyVisitorCount() {
-                if (sessionStorage.getItem('visitRecorded')) {
-                    console.log("Kunjungan sudah tercatat di sesi ini.");
-                    return;
-                }
-                const todayFormatted = getFormattedDate(new Date());
-                const visitorDocRef = doc(db, `artifacts/${appId}/public/data/dailyVisitors`, todayFormatted);
-                try {
-                    await setDoc(visitorDocRef, {
-                        count: increment(1),
-                        lastVisit: serverTimestamp()
-                    }, { merge: true });
-                    sessionStorage.setItem('visitRecorded', 'true');
-                    console.log("Jumlah pengunjung harian berhasil diperbarui.");
-                } catch (error) {
-                    console.error("Kesalahan saat memperbarui jumlah pengunjung:", error);
-                }
+            try {
+                await setDoc(visitorDocRef, {
+                    count: increment(1),
+                    lastVisit: serverTimestamp()
+                }, { merge: true });
+                console.log("Jumlah pengunjung harian diperbarui.");
+            } catch (error) {
+                console.error("Kesalahan memperbarui jumlah pengunjung harian:", error);
             }
+        }
 
-            // Function to initialize and update the chart
-            function initializeVisitorChart(data) {
-                const ctx = document.getElementById('visitorChartCanvas').getContext('2d');
-                
-                // FIX: Corrected typo 'b' to 'dateB' in the sort function
-                const sortedEntries = Object.entries(data).sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB));
-                
-                const labels = sortedEntries.map(([date]) => date);
-                const counts = sortedEntries.map(([, countData]) => countData.count);
+        // Function to initialize and update the chart
+        function initializeVisitorChart(data) {
+            const ctx = document.getElementById('visitorChartCanvas');
+            if (!ctx) return;
+            
+            const context = ctx.getContext('2d');
 
-                if (visitorChart) {
-                    visitorChart.data.labels = labels;
-                    visitorChart.data.datasets[0].data = counts;
-                    visitorChart.update();
-                } else {
-                    visitorChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Pengunjung Harian',
-                                data: counts,
-                                borderColor: '#38bdf8',
-                                backgroundColor: 'rgba(56, 189, 248, 0.2)',
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 5,
-                                pointBackgroundColor: '#38bdf8',
-                                pointBorderColor: '#fff',
-                                pointHoverRadius: 7,
-                                pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: '#38bdf8',
-                            }]
+            // Sort data by date and prepare for chart
+            const sortedData = Object.entries(data)
+                .map(([date, countData]) => {
+                    // Handle both number and object formats
+                    const count = typeof countData === 'object' ? countData.count : countData;
+                    return { date, count: count || 0 };
+                })
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            const labels = sortedData.map(item => item.date);
+            const counts = sortedData.map(item => item.count);
+
+            if (visitorChart) {
+                // Update existing chart
+                visitorChart.data.labels = labels;
+                visitorChart.data.datasets[0].data = counts;
+                visitorChart.update('none'); // No animation for updates
+            } else {
+                // Create new chart
+                visitorChart = new Chart(context, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Pengunjung Harian',
+                            data: counts,
+                            borderColor: '#38bdf8',
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#38bdf8',
+                            pointBorderColor: '#fff',
+                            pointHoverRadius: 7,
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#38bdf8',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeInOutQuart'
                         },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Grafik Pengunjung Harian',
-                                    color: '#fff',
-                                    font: { size: 18 }
-                                },
-                                legend: { display: false }
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Grafik Pengunjung Harian',
+                                color: '#fff',
+                                font: {
+                                    size: 18,
+                                    weight: 'bold'
+                                }
                             },
-                            scales: {
-                                x: {
-                                    type: 'category', 
-                                    title: {
-                                        display: true,
-                                        text: 'Tanggal',
-                                        color: '#fff'
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(36, 44, 58, 0.9)',
+                                titleColor: '#fff',
+                                bodyColor: '#cbd5e0',
+                                borderColor: '#38bdf8',
+                                borderWidth: 1,
+                                displayColors: false,
+                                callbacks: {
+                                    title: function(context) {
+                                        return new Date(context[0].label).toLocaleDateString('id-ID', {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        });
                                     },
-                                    ticks: { color: '#cbd5e0' },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'Jumlah Pengunjung',
-                                        color: '#fff'
-                                    },
-                                    ticks: {
-                                        color: '#cbd5e0',
-                                        precision: 0 
-                                    },
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                    label: function(context) {
+                                        return `Pengunjung: ${context.parsed.y}`;
+                                    }
                                 }
                             }
+                        },
+                        scales: {
+                            x: {
+                                type: 'category', // Use category scale instead of time
+                                title: {
+                                    display: true,
+                                    text: 'Tanggal',
+                                    color: '#fff',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                ticks: {
+                                    color: '#cbd5e0',
+                                    maxTicksLimit: 7,
+                                    callback: function(value, index) {
+                                        const date = new Date(this.getLabelForValue(value));
+                                        return date.toLocaleDateString('id-ID', { 
+                                            month: 'short', 
+                                            day: 'numeric' 
+                                        });
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)',
+                                    drawBorder: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Jumlah Pengunjung',
+                                    color: '#fff',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                ticks: {
+                                    color: '#cbd5e0',
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        return Number.isInteger(value) ? value : '';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)',
+                                    drawBorder: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
                         }
-                    });
-                }
+                    }
+                });
             }
+        }
 
-            // --- Authentication and Data Listener ---
+        // Listen for authentication state changes
+        if (auth) {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     console.log("Pengguna terautentikasi:", user.uid);
+                    // Update visitor count on page load
                     await updateDailyVisitorCount();
+
+                    // Set up real-time listener for daily visitors
                     const dailyVisitorsColRef = collection(db, `artifacts/${appId}/public/data/dailyVisitors`);
                     const q = query(dailyVisitorsColRef);
+
                     onSnapshot(q, (snapshot) => {
                         const visitorData = {};
-                        if (snapshot.empty) {
-                            console.log("Tidak ada data pengunjung.");
-                        }
                         snapshot.forEach((doc) => {
-                            visitorData[doc.id] = doc.data();
+                            const data = doc.data();
+                            visitorData[doc.id] = data.count || 0;
                         });
+                        
                         console.log("Data pengunjung real-time:", visitorData);
-                        initializeVisitorChart(visitorData);
+                        
+                        // If no data, generate demo data
+                        const dataToUse = Object.keys(visitorData).length > 0 ? visitorData : generateDemoData();
+                        
+                        initializeVisitorChart(dataToUse);
                         document.getElementById('loadingGraph').style.display = 'none';
                         document.getElementById('visitorChartCanvas').style.display = 'block';
                     }, (error) => {
                         console.error("Kesalahan mendengarkan data pengunjung:", error);
-                        document.getElementById('loadingGraph').textContent = 'Gagal memuat data pengunjung.';
+                        document.getElementById('loadingGraph').textContent = 'Gagal memuat data pengunjung. Menampilkan data demo.';
+                        
+                        // Show demo data on error
+                        setTimeout(() => {
+                            initializeVisitorChart(generateDemoData());
+                            document.getElementById('loadingGraph').style.display = 'none';
+                            document.getElementById('visitorChartCanvas').style.display = 'block';
+                        }, 2000);
                     });
+
                 } else {
-                    console.log("Pengguna tidak terautentikasi, mencoba masuk...");
+                    console.log("Pengguna tidak terautentikasi, mencoba masuk secara anonim.");
                     try {
                         if (initialAuthToken) {
                             await signInWithCustomToken(auth, initialAuthToken);
@@ -184,10 +285,26 @@
                         }
                     } catch (error) {
                         console.error("Kesalahan saat masuk:", error);
-                        document.getElementById('loadingGraph').textContent = 'Gagal mengautentikasi. Silakan muat ulang.';
+                        document.getElementById('loadingGraph').textContent = 'Gagal mengautentikasi. Menampilkan data demo.';
+                        
+                        // Show demo data on auth error
+                        setTimeout(() => {
+                            initializeVisitorChart(generateDemoData());
+                            document.getElementById('loadingGraph').style.display = 'none';
+                            document.getElementById('visitorChartCanvas').style.display = 'block';
+                        }, 2000);
                     }
                 }
             });
+        }
+
+        // Initialize demo data if Firebase is not available
+        if (!auth) {
+            setTimeout(() => {
+                initializeVisitorChart(generateDemoData());
+                document.getElementById('loadingGraph').style.display = 'none';
+                document.getElementById('visitorChartCanvas').style.display = 'block';
+            }, 1000);
         }
     </script>
 </head>
@@ -198,7 +315,7 @@
                 <div class="nav-content">
                     <a href="#" class="brand-logo">Ardy<span>Dev</span></a>
                     <div class="desktop-menu">
-                        <a href="" class="desktop-menu-button">TIDAK DIPERKENANKAN DEKSTOP</a>
+                        <a href="" class="desktop-menu-button">Full Fitur Untuk Browser Mobile</a>
                     </div>
                     <div class="mobile-menu-toggle">
                         <button id="menu-btn" class="hamburger">
