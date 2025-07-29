@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ardy Dev - Portfolio & Templates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style_semua_halaman.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Ardy Dev</h1>
+            </div>
+            <div class="nav-right">
+                <div class="profile-icon" id="profileIcon" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Popup -->
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-content">
+            <div class="profile-info">
+                <i class="fas fa-user-circle profile-avatar"></i>
+                <h3 id="profileName">User</h3>
+                <p id="profileEmail">user@email.com</p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-profile" id="editProfile">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+                <button class="btn-profile logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="template.html"><i class="fas fa-code"></i> Template HTML</a></li>
+            <li><a href="galeri.html"><i class="fas fa-images"></i> Galeri Project</a></li>
+            <li><a href="kontak.html"><i class="fas fa-envelope"></i> Kontak</a></li>
+            <li><a href="tutorial.html"><i class="fas fa-play-circle"></i> Tutorial</a></li>
+            <li><a href="license.txt" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Selamat Datang di Ardy Dev</h2>
+                    <p>Platform terbaik untuk template HTML profesional dan tutorial pengembangan web</p>
+                    <div class="hero-stats">
+                        <div class="stat-box">
+                            <div class="stat-number" id="visitorCount">0</div>
+                            <div class="stat-label">HITUNG</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="totalVisitors">0</div>
+                            <div class="stat-label">Total Anda Berkunjung</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-time Chart -->
+        <section class="chart-section">
+            <div class="container">
+                <div class="chart-box">
+                    <h3>Grafik Kunjungan</h3>
+                    <canvas id="visitorChart" width="250" height="100"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about">
+            <div class="container">
+                <div class="about-content">
+                    <h3>Tentang Ardy Dev</h3>
+                    <p>Ardy Dev adalah platform yang menyediakan template HTML berkualitas tinggi, tutorial pengembangan web, dan layanan pembuatan website profesional. Kami berkomitmen untuk membantu developer dan bisnis dalam menciptakan website yang menarik dan fungsional.</p>
+                    
+                    <div class="services">
+                        <div class="service-item">
+                            <i class="fas fa-code"></i>
+                            <h4>Template HTML</h4>
+                            <p>Koleksi template HTML responsif dan modern</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <h4>Jasa Website</h4>
+                            <p>Layanan pembuatan website custom sesuai kebutuhan</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4>Tutorial</h4>
+                            <p>Video tutorial lengkap untuk belajar web development</p>
+                        </div>
+                    </div>
+
+                    <div class="subscription-info">
+                        <div class="sub-box">
+                            <div class="sub-number" id="subscriberCount">~</div>
+                            <div class="sub-label">Menghitung, Subscriber YouTube</div>
+                        </div>
+                        <div class="sub-box">
+                            <div class="sub-number" id="templateDownloads">20+</div>
+                            <div class="sub-label">Template Downloads</div>
+                        </div>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="template.html" class="btn-gradient">Lihat Template</a>
+                        <a href="kontak.html" class="btn-gradient">Hubungi Kami</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h3>Fitur Unggulan</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Mobile First</h4>
+                        <p>Semua template dioptimalkan untuk perangkat mobile</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Loading Cepat</h4>
+                        <p>Template dengan performa tinggi dan loading cepat</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-palette"></i>
+                        <h4>Design Modern</h4>
+                        <p>Desain terkini yang mengikuti tren web design</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-support"></i>
+                        <h4>Support 24/7</h4>
+                        <p>Dukungan teknis yang siap membantu kapan saja</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Ardy Sihombing. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="script/script_semua_halaman.js"></script>
+</body>
+</html>

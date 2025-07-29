@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Project - Ardy Dev</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style_semua_halaman.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Ardy Dev</h1>
+            </div>
+            <div class="nav-right">
+                <div class="profile-icon" id="profileIcon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Popup -->
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-content">
+            <div class="profile-info">
+                <i class="fas fa-user-circle profile-avatar"></i>
+                <h3 id="profileName">User</h3>
+                <p id="profileEmail">user@email.com</p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-profile" id="editProfile">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+                <button class="btn-profile logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="template.html"><i class="fas fa-code"></i> Template HTML</a></li>
+            <li><a href="galeri.html" class="active"><i class="fas fa-images"></i> Galeri Project</a></li>
+            <li><a href="kontak.html"><i class="fas fa-envelope"></i> Kontak</a></li>
+            <li><a href="tutorial.html"><i class="fas fa-play-circle"></i> Tutorial</a></li>
+            <li><a href="license.txt" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h2>Galeri Project</h2>
+                <p>Koleksi project dan template yang telah dibuat</p>
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="gallery">
+            <div class="container">
+                <div class="gallery-grid" id="galleryGrid">
+                    <!-- Gallery items will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Ardy Sihombing. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="script/script_semua_halaman.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak - Ardy Dev</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style_semua_halaman.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Ardy Dev</h1>
+            </div>
+            <div class="nav-right">
+                <div class="profile-icon" id="profileIcon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Popup -->
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-content">
+            <div class="profile-info">
+                <i class="fas fa-user-circle profile-avatar"></i>
+                <h3 id="profileName">User</h3>
+                <p id="profileEmail">user@email.com</p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-profile" id="editProfile">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+                <button class="btn-profile logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="template.html"><i class="fas fa-code"></i> Template HTML</a></li>
+            <li><a href="galeri.html"><i class="fas fa-images"></i> Galeri Project</a></li>
+            <li><a href="kontak.html" class="active"><i class="fas fa-envelope"></i> Kontak</a></li>
+            <li><a href="tutorial.html"><i class="fas fa-play-circle"></i> Tutorial</a></li>
+            <li><a href="license.txt" target="_blank"><i class="fas fa-file-contract"></i> Lisensi</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="page-header">
+            <div class="container">
+                <h2>Hubungi Kami</h2>
+                <p>Kami siap membantu kebutuhan website Anda</p>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="contact">
+            <div class="container">
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nama Lengkap</label>
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-group">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo">Upload Foto (Opsional)</label>
+                            <div class="file-input-container">
+                                <input type="file" id="photo" name="photo" accept="image/*">
+                                <label for="photo" class="file-input-label">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Pilih Foto</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Pesan</label>
+                            <div class="input-group">
+                                <i class="fas fa-comment"></i>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-gradient">
+                            <i class="fas fa-paper-plane"></i>
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Social Media -->
+                <div class="social-media">
+                    <h3>Ikuti Kami</h3>
+                    <div class="social-links">
+                        <a href="https://wa.me/6283146557755?text=Halo%20Abang%20aku" target="_blank" class="social-link whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a href="https://vm.tiktok.com/ZSSYwRG2N/" target="_blank" class="social-link tiktok">
+                            <i class="fab fa-tiktok"></i>
+                            <span>TikTok</span>
+                        </a>
+                        <a href="https://www.instagram.com/kingproject_ar?igsh=YXo1aDI5czBzN3c=" target="_blank" class="social-link instagram">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://github.com/ArdyProject" target="_blank" class="social-link github">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://youtube.com/@kingproject_ar?si=LVLQB6ViZRZgg4rB" target="_blank" class="social-link youtube">
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Ardy Sihombing. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="script/script_semua_halaman.js"></script>
+</body>
+</html>

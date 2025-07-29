@@ -1,0 +1,97 @@
+LISENSI PENGGUNAAN WEBSITE ARDY DEV
+===================================
+
+Nama Pemilik: Ardy Lasro Ganda Sihombing
+Website: Ardy Dev Portfolio & Templates
+Tanggal Berlaku: 1 Januari 2025
+
+KETENTUAN UMUM
+--------------
+
+1. KEPEMILIKAN INTELEKTUAL
+   Seluruh konten, desain, kode sumber, template, tutorial, dan materi lainnya yang terdapat dalam website Ardy Dev adalah milik eksklusif Ardy Lasro Ganda Sihombing. Semua hak cipta, merek dagang, dan hak kekayaan intelektual lainnya dilindungi oleh undang-undang yang berlaku.
+
+2. INTEGRASI STRUKTUR
+   Website ini menggunakan integrasi struktur HTML, CSS, dan JavaScript yang telah dikembangkan dan dioptimalkan khusus untuk memberikan pengalaman pengguna terbaik. Struktur kode dan arsitektur sistem merupakan hasil karya intelektual yang dilindungi hak cipta.
+
+3. LISENSI PENGGUNAAN TEMPLATE
+   a) Template HTML yang disediakan dapat digunakan untuk keperluan pribadi dan komersial
+   b) Pengguna dilarang mendistribusikan ulang template dalam bentuk asli tanpa izin tertulis
+   c) Modifikasi template diperbolehkan dengan tetap mencantumkan kredit kepada pembuat
+   d) Penggunaan template untuk tujuan ilegal atau merugikan pihak lain dilarang keras
+
+4. HAK DAN KEWAJIBAN PENGGUNA
+   a) Pengguna berhak mengakses dan menggunakan layanan sesuai ketentuan yang berlaku
+   b) Pengguna wajib memberikan informasi yang akurat saat registrasi
+   c) Pengguna dilarang melakukan tindakan yang dapat merusak atau mengganggu sistem
+   d) Pengguna bertanggung jawab atas keamanan akun dan password masing-masing
+
+5. LAYANAN YANG DISEDIAKAN
+   a) Penyediaan template HTML berkualitas tinggi
+   b) Tutorial pengembangan web melalui video YouTube
+   c) Konsultasi dan jasa pembuatan website
+   d) Dukungan teknis untuk pengguna template
+
+6. PEMBATASAN TANGGUNG JAWAB
+   a) Pemilik website tidak bertanggung jawab atas kerugian yang timbul dari penggunaan template
+   b) Ketersediaan layanan dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya
+   c) Pemilik berhak menghentikan atau memodifikasi layanan kapan saja
+
+7. KEBIJAKAN PRIVASI
+   a) Data pengguna akan dijaga kerahasiaan dan keamanannya
+   b) Informasi pribadi tidak akan dibagikan kepada pihak ketiga tanpa persetujuan
+   c) Cookies dan teknologi pelacakan digunakan untuk meningkatkan pengalaman pengguna
+
+8. KETENTUAN PEMBAYARAN
+   a) Pembayaran untuk layanan premium harus dilakukan sesuai dengan metode yang ditentukan
+   b) Refund dapat dilakukan dalam kondisi tertentu sesuai kebijakan yang berlaku
+   c) Harga layanan dapat berubah sewaktu-waktu dengan pemberitahuan sebelumnya
+
+9. PELANGGARAN DAN SANKSI
+   a) Pelanggaran terhadap ketentuan ini dapat mengakibatkan penghentian akses
+   b) Tindakan hukum dapat diambil untuk pelanggaran serius
+   c) Pemilik berhak memblokir akses pengguna yang melanggar ketentuan
+
+10. PERUBAHAN KETENTUAN
+    a) Ketentuan ini dapat diubah sewaktu-waktu tanpa pemberitahuan sebelumnya
+    b) Pengguna dianggap menyetujui perubahan dengan tetap menggunakan layanan
+    c) Versi terbaru ketentuan akan selalu tersedia di website
+
+11. KONTAK DAN DUKUNGAN
+    Untuk pertanyaan, keluhan, atau dukungan teknis, hubungi:
+    - WhatsApp: +62 831-4655-7755
+    - Email: kingproject.ar@gmail.com
+    - Instagram: @kingproject_ar
+    - YouTube: KingProject AR
+
+12. YURISDIKSI HUKUM
+    Ketentuan ini tunduk pada hukum yang berlaku di Republik Indonesia. Setiap sengketa yang timbul akan diselesaikan melalui pengadilan yang berwenang di Indonesia.
+
+PERNYATAAN PERSETUJUAN
+----------------------
+
+Dengan menggunakan website Ardy Dev, pengguna dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam lisensi ini. Ketidaksetujuan terhadap ketentuan ini mengharuskan pengguna untuk tidak menggunakan layanan yang disediakan.
+
+KREDIT DAN PENGAKUAN
+-------------------
+
+Website ini dikembangkan dengan menggunakan teknologi modern dan best practices dalam pengembangan web. Terima kasih kepada komunitas open source dan developer yang telah berkontribusi dalam pengembangan teknologi web.
+
+Struktur HTML, CSS, dan JavaScript telah dioptimalkan untuk performa terbaik dan kompatibilitas lintas browser. Semua kode telah melalui proses testing dan quality assurance untuk memastikan stabilitas dan keamanan.
+
+DISCLAIMER
+----------
+
+Informasi yang disediakan dalam website ini bersifat umum dan tidak dimaksudkan sebagai saran profesional. Pengguna disarankan untuk melakukan verifikasi independen sebelum mengambil keputusan berdasarkan informasi yang tersedia.
+
+Pemilik website tidak menjamin keakuratan, kelengkapan, atau kesesuaian informasi untuk tujuan tertentu. Penggunaan informasi sepenuhnya menjadi risiko pengguna.
+
+---
+
+© 2025 Ardy Lasro Ganda Sihombing. All Rights Reserved.
+
+Dokumen ini berlaku sejak tanggal 1 Januari 2025 dan akan terus berlaku hingga ada pembaruan atau pencabutan resmi dari pemilik website.
+
+Untuk informasi lebih lanjut mengenai lisensi dan ketentuan penggunaan, silakan hubungi kontak yang telah disediakan di atas.
+
+TERIMA KASIH TELAH MENGGUNAKAN LAYANAN ARDY DEV!
